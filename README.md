@@ -1,7 +1,5 @@
 # Serato → Rekordbox 轉換工具
 
-[English](#english) · [简体中文](#简体中文) · [繁體中文](#繁體中文)
-
 ## 繁體中文
 
 **Serato → Rekordbox 轉換工具**是一個離線網頁版小工具,幫 DJ 把 Serato 的播放列表(crate)、Hot Cue、Loop 等資訊轉換成 Rekordbox 可以匯入的 XML 檔案。整個轉換過程完全在你自己的瀏覽器裡執行,音樂檔案與路徑資訊都不會透過網路傳送或上傳到任何伺服器,關掉分頁資料就清除。支援繁體中文、简体中文、English 三種介面語言。
