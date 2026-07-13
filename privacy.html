@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>隱私權政策 — Serato → Rekordbox 轉換工具</title>
+<title data-i18n="privacy.title">隱私權政策 — Serato → Rekordbox 轉換工具</title>
 <style>
   :root {
     color-scheme: light dark;
@@ -47,40 +47,64 @@
     margin-bottom: 16px;
   }
   .back-link { display: inline-block; margin-top: 24px; font-size: 0.88rem; }
+  .lang-switcher-row { display: flex; justify-content: flex-end; margin-bottom: 12px; }
+  .lang-switcher {
+    background: var(--panel);
+    color: var(--text);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 4px 8px;
+    font-size: 0.8rem;
+  }
 </style>
 </head>
 <body>
 <div class="wrap">
-  <h1>隱私權政策</h1>
-  <div class="subtitle">Serato → Rekordbox 轉換工具(離線網頁版)</div>
+  <div class="lang-switcher-row">
+    <select class="lang-switcher" id="langSwitcher" data-lang-switcher>
+      <option value="zh-Hant">繁體中文</option>
+      <option value="zh-Hans">简体中文</option>
+      <option value="en">English</option>
+    </select>
+  </div>
+
+  <h1 data-i18n="privacy.h1">隱私權政策</h1>
+  <div class="subtitle" data-i18n="privacy.subtitle">Serato → Rekordbox 轉換工具(離線網頁版)</div>
 
   <div class="panel">
-    <h2>這個工具怎麼處理你的資料</h2>
-    <p>本工具是一個純前端(client-side)網頁應用程式。你選取或拖入的音樂檔案、Serato 播放列表(<code>.crate</code>)資料,全部只會在<strong>你自己電腦上的瀏覽器裡</strong>被讀取與解析,用來產生 Rekordbox XML 檔案。整個過程中,這些檔案內容<strong>不會透過網路上傳、傳送或儲存到任何伺服器</strong>,包含本網站本身的伺服器在內。</p>
-    <p>你關閉分頁或重新整理頁面後,所有已讀取的資料就會從瀏覽器記憶體中清除。</p>
+    <h2 data-i18n="privacy.section1.h2">這個工具怎麼處理你的資料</h2>
+    <p data-i18n-html="privacy.section1.p1">本工具是一個純前端(client-side)網頁應用程式。你選取或拖入的音樂檔案、Serato 播放列表(<code>.crate</code>)資料,全部只會在<strong>你自己電腦上的瀏覽器裡</strong>被讀取與解析,用來產生 Rekordbox XML 檔案。整個過程中,這些檔案內容<strong>不會透過網路上傳、傳送或儲存到任何伺服器</strong>,包含本網站本身的伺服器在內。</p>
+    <p data-i18n="privacy.section1.p2">你關閉分頁或重新整理頁面後,所有已讀取的資料就會從瀏覽器記憶體中清除。</p>
   </div>
 
   <div class="panel">
-    <h2>本機儲存(localStorage)</h2>
-    <p>為了方便使用,本工具會用瀏覽器的 <code>localStorage</code> 記住你輸入過的「音樂資料夾絕對路徑」文字,純粹是為了下次不用重新輸入。這筆資料只存在你自己的瀏覽器裡,不會被傳送出去,你可以隨時透過瀏覽器設定清除網站資料來移除它。</p>
+    <h2 data-i18n="privacy.section2.h2">本機儲存(localStorage)</h2>
+    <p data-i18n-html="privacy.section2.p1">為了方便使用,本工具會用瀏覽器的 <code>localStorage</code> 記住你輸入過的「音樂資料夾絕對路徑」文字,純粹是為了下次不用重新輸入。這筆資料只存在你自己的瀏覽器裡,不會被傳送出去,你可以隨時透過瀏覽器設定清除網站資料來移除它。</p>
   </div>
 
   <div class="panel">
-    <h2>Cookie 與追蹤</h2>
-    <p>本工具目前沒有使用任何 Cookie、分析工具(如 Google Analytics)或廣告。</p>
+    <h2 data-i18n="privacy.section3.h2">Cookie 與追蹤</h2>
+    <p data-i18n="privacy.section3.p1">本工具目前沒有使用任何 Cookie、分析工具(如 Google Analytics)或廣告。</p>
   </div>
 
   <div class="panel">
-    <h2>網站託管</h2>
-    <p>本網站由 GitHub Pages 提供靜態網頁託管。GitHub 可能依其自身服務需求,記錄基本的伺服器存取紀錄(例如 IP 位址、瀏覽器資訊),這部分不屬於本工具的控制範圍,詳情請參考 <a href="https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement" target="_blank" rel="noopener">GitHub 的隱私權聲明</a>。</p>
+    <h2 data-i18n="privacy.section4.h2">網站託管</h2>
+    <p data-i18n-html="privacy.section4.p1">本網站由 GitHub Pages 提供靜態網頁託管。GitHub 可能依其自身服務需求,記錄基本的伺服器存取紀錄(例如 IP 位址、瀏覽器資訊),這部分不屬於本工具的控制範圍,詳情請參考 <a href="https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement" target="_blank" rel="noopener">GitHub 的隱私權聲明</a>。</p>
   </div>
 
   <div class="panel">
-    <h2>未來若有變更</h2>
-    <p>若本工具未來新增任何會蒐集資料、使用 Cookie 或投放廣告的功能,會在此頁面更新說明。</p>
+    <h2 data-i18n="privacy.section5.h2">未來若有變更</h2>
+    <p data-i18n="privacy.section5.p1">若本工具未來新增任何會蒐集資料、使用 Cookie 或投放廣告的功能,會在此頁面更新說明。</p>
   </div>
 
-  <a class="back-link" href="index.html">← 回到轉換工具</a>
+  <a class="back-link" href="index.html" data-i18n="common.backToTool">← 回到轉換工具</a>
 </div>
+
+<script src="js/i18n.js"></script>
+<script>
+  document.getElementById("langSwitcher").addEventListener("change", function (e) {
+    window.S2R_I18N.setLang(e.target.value);
+  });
+</script>
 </body>
 </html>

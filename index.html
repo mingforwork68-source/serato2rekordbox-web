@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Serato → Rekordbox 轉換工具(離線網頁版)</title>
+<title data-i18n="meta.title">Serato → Rekordbox 轉換工具(離線網頁版)</title>
 <style>
   :root {
     color-scheme: light dark;
@@ -58,6 +58,15 @@
   }
   .site-footer a { color: var(--muted); text-decoration: underline; }
   .site-footer a:hover { color: var(--accent); }
+  .lang-switcher-row { display: flex; justify-content: flex-end; margin-bottom: 4px; }
+  .lang-switcher {
+    background: var(--panel);
+    color: var(--text);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 4px 8px;
+    font-size: 0.8rem;
+  }
   .panel {
     background: var(--panel);
     border: 1px solid var(--border);
@@ -221,89 +230,123 @@
 </head>
 <body>
 <div class="wrap">
-  <h1>Serato → Rekordbox 轉換工具</h1>
-  <div class="subtitle">離線網頁版 &middot; 純瀏覽器端執行</div>
+  <div class="lang-switcher-row">
+    <select class="lang-switcher" id="langSwitcher" data-lang-switcher>
+      <option value="zh-Hant">繁體中文</option>
+      <option value="zh-Hans">简体中文</option>
+      <option value="en">English</option>
+    </select>
+  </div>
 
-  <div class="notice">
+  <h1 data-i18n="app.title">Serato → Rekordbox 轉換工具</h1>
+  <div class="subtitle" data-i18n="app.subtitle">離線網頁版 &middot; 純瀏覽器端執行</div>
+
+  <div class="notice" data-i18n="notice.clientSide">
     這個頁面完全在你的瀏覽器裡執行,音樂檔案只會在本機被讀取來解析 Cue 資訊,不會透過網路傳送到任何地方,也不會離開這台電腦。關掉分頁資料就消失了。
   </div>
 
-  <div class="notice warn-notice">
+  <div class="notice warn-notice" data-i18n-html="notice.backup">
     <strong>建議:</strong>雖然本工具只會「讀取」你的音樂檔案與 Serato 資料庫、不會覆寫或修改原始檔案,轉檔前還是建議先備份好你的音樂資料夾與 <code>_Serato_</code> 資料夾,以防萬一(例如硬碟異常、誤刪等與本工具無關的意外)。
   </div>
 
   <div class="panel">
-    <h2>① Serato 播放列表(選填,用來還原歌曲順序)</h2>
+    <h2 data-i18n="step1.heading">① Serato 播放列表(選填,用來還原歌曲順序)</h2>
     <div id="seratoDropZone" class="dropzone">
-      把 <code>_Serato_</code> 資料夾或單一 <code>.crate</code> 檔案拖到這裡,或
-      <button type="button" class="secondary" onclick="document.getElementById('seratoFolderInput').click()">選擇資料夾</button>
-      <button type="button" class="secondary" onclick="document.getElementById('seratoFileInput').click()">選擇 .crate 檔案</button>
+      <span data-i18n-html="step1.dropzoneText">把 <code>_Serato_</code> 資料夾或單一 <code>.crate</code> 檔案拖到這裡,或</span>
+      <button type="button" class="secondary" data-i18n="common.btnSelectFolder" onclick="document.getElementById('seratoFolderInput').click()">選擇資料夾</button>
+      <button type="button" class="secondary" data-i18n="step1.btnSelectFile" onclick="document.getElementById('seratoFileInput').click()">選擇 .crate 檔案</button>
     </div>
     <input type="file" id="seratoFolderInput" webkitdirectory directory multiple />
     <input type="file" id="seratoFileInput" accept=".crate" multiple />
     <div class="row" style="margin-top:8px;">
-      <div id="seratoStatus" class="status warn">尚未選擇</div>
-      <button type="button" class="secondary" id="clearSeratoBtn">清空重選</button>
+      <div id="seratoStatus" class="status warn" data-i18n="common.notSelected">尚未選擇</div>
+      <button type="button" class="secondary" id="clearSeratoBtn" data-i18n="common.btnClearReselect">清空重選</button>
     </div>
+
+    <details class="help-details">
+      <summary data-i18n-html="step1.help.summary">❓ 不知道 <code>.crate</code> 檔案在哪裡?點這裡看說明</summary>
+      <div class="help-columns">
+        <div class="help-col">
+          <h3 data-i18n="common.macHeading">🍎 macOS</h3>
+          <p class="option-desc" style="margin-left:0;" data-i18n="common.pathUsuallyIs">路徑通常是:</p>
+          <div class="mockup">
+            <div class="mockup-body">
+              <div class="mockup-terminal-line">~/Music/_Serato_/Subcrates/</div>
+            </div>
+          </div>
+          <p class="option-desc" style="margin-left:0;" data-i18n-html="step1.help.macDesc">裡面每一個 <code>.crate</code> 檔案就是一個 Serato 播放列表(crate),檔名就是列表名稱。可以整個 <code>_Serato_</code> 資料夾一起拖進上面,或是只挑幾個 <code>.crate</code> 檔案上傳。</p>
+        </div>
+        <div class="help-col">
+          <h3 data-i18n="common.winHeading">🪟 Windows</h3>
+          <p class="option-desc" style="margin-left:0;" data-i18n="common.pathUsuallyIs">路徑通常是:</p>
+          <div class="mockup">
+            <div class="mockup-body">
+              <div class="mockup-terminal-line" data-i18n="step1.help.winPathExample">C:\Users\你的帳號\Music\_Serato_\Subcrates\</div>
+            </div>
+          </div>
+          <p class="option-desc" style="margin-left:0;" data-i18n-html="step1.help.winDesc">同樣地,每個 <code>.crate</code> 檔案就是一個播放列表。如果列表名稱裡有用資料夾分類(子清單),檔名會用 <code>%%</code> 分隔,例如 <code>Techno%%Hard.crate</code> 代表「Techno」資料夾底下的「Hard」子清單,不影響直接選取使用。</p>
+        </div>
+      </div>
+    </details>
   </div>
 
   <div class="panel">
-    <h2>② 音樂資料夾(單一資料夾)</h2>
+    <h2 data-i18n="step2.heading">② 音樂資料夾(單一資料夾)</h2>
     <div id="musicDropZone" class="dropzone">
-      把「一個」音樂資料夾拖到這裡,或
-      <button type="button" class="secondary" onclick="document.getElementById('musicInput').click()">選擇資料夾</button>
+      <span data-i18n="step2.dropzoneText">把「一個」音樂資料夾拖到這裡,或</span>
+      <button type="button" class="secondary" data-i18n="common.btnSelectFolder" onclick="document.getElementById('musicInput').click()">選擇資料夾</button>
     </div>
     <input type="file" id="musicInput" webkitdirectory directory />
     <div class="row" style="margin-top:8px;">
-      <div id="musicStatus" class="status warn">尚未選擇</div>
-      <button type="button" class="secondary" id="clearMusicBtn">清空重選</button>
+      <div id="musicStatus" class="status warn" data-i18n="common.notSelected">尚未選擇</div>
+      <button type="button" class="secondary" id="clearMusicBtn" data-i18n="common.btnClearReselect">清空重選</button>
     </div>
     <div id="rootRow" class="root-row hidden">
       <label id="rootLabel"></label>
-      <input type="text" id="rootInput" class="root-input" placeholder="例如 /Users/yourname/Music/IMDJ" />
+      <input type="text" id="rootInput" class="root-input" data-i18n-placeholder="step2.rootPlaceholderDefault" placeholder="例如 /Users/yourname/Music/IMDJ" />
     </div>
     <div id="pathWarning" class="status warn"></div>
 
     <details class="help-details">
-      <summary>❓ 不知道怎麼找到完整路徑?點這裡看 Mac / Windows 教學</summary>
+      <summary data-i18n="step2.help.summary">❓ 不知道怎麼找到完整路徑?點這裡看 Mac / Windows 教學</summary>
       <div class="help-columns">
         <div class="help-col">
-          <h3>🍎 macOS</h3>
+          <h3 data-i18n="common.macHeading">🍎 macOS</h3>
           <ol>
-            <li>用 Spotlight(<kbd>⌘</kbd>+<kbd>空白鍵</kbd>)打開「終端機 Terminal」</li>
-            <li>直接把你的音樂資料夾從 Finder 拖進 Terminal 視窗裡</li>
-            <li>路徑文字會自動打出來,選起來複製(<kbd>⌘C</kbd>),貼到上面的欄位就好(不用按 Enter)</li>
+            <li data-i18n-html="step2.help.mac.li1">用 Spotlight(<kbd>⌘</kbd>+<kbd>空白鍵</kbd>)打開「終端機 Terminal」</li>
+            <li data-i18n="step2.help.mac.li2">直接把你的音樂資料夾從 Finder 拖進 Terminal 視窗裡</li>
+            <li data-i18n-html="step2.help.mac.li3">路徑文字會自動打出來,選起來複製(<kbd>⌘C</kbd>),貼到上面的欄位就好(不用按 Enter)</li>
           </ol>
           <div class="mockup">
             <div class="mockup-titlebar mac-titlebar">
               <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
-              <span class="mockup-title">終端機</span>
+              <span class="mockup-title" data-i18n="step2.help.mac.terminalTitle">終端機</span>
             </div>
             <div class="mockup-body">
-              <div class="mockup-dragrow"><span class="mockup-folder-icon">📁</span> IMDJ <span class="mockup-arrow">拖進來 →</span></div>
+              <div class="mockup-dragrow"><span class="mockup-folder-icon">📁</span> IMDJ <span class="mockup-arrow" data-i18n="step2.help.mac.dragHint">拖進來 →</span></div>
               <div class="mockup-terminal-line">/Users/yourname/Music/IMDJ</div>
             </div>
           </div>
         </div>
         <div class="help-col">
-          <h3>🪟 Windows</h3>
+          <h3 data-i18n="common.winHeading">🪟 Windows</h3>
           <ol>
-            <li>在檔案總管裡,點一下「選取」你的音樂資料夾(不要打開它)</li>
-            <li>按住 <kbd>Shift</kbd> 再按滑鼠右鍵,選單裡點「複製為路徑」</li>
-            <li>貼到上面的欄位;如果前後有引號 <code>"</code>,記得刪掉</li>
+            <li data-i18n="step2.help.win.li1">在檔案總管裡,點一下「選取」你的音樂資料夾(不要打開它)</li>
+            <li data-i18n-html="step2.help.win.li2">按住 <kbd>Shift</kbd> 再按滑鼠右鍵,選單裡點「複製為路徑」</li>
+            <li data-i18n-html="step2.help.win.li3">貼到上面的欄位;如果前後有引號 <code>"</code>,記得刪掉</li>
           </ol>
           <div class="mockup">
             <div class="mockup-titlebar win-titlebar">
-              <span class="mockup-title">📁 檔案總管</span>
+              <span class="mockup-title" data-i18n="step2.help.win.title">📁 檔案總管</span>
             </div>
             <div class="mockup-body">
-              <div class="mockup-dragrow"><span class="mockup-folder-icon">📁</span> IMDJ <span class="mockup-hint">(已選取)</span></div>
+              <div class="mockup-dragrow"><span class="mockup-folder-icon">📁</span> IMDJ <span class="mockup-hint" data-i18n="step2.help.win.selectedHint">(已選取)</span></div>
               <div class="mockup-menu">
-                <div class="mockup-menu-item">開啟</div>
-                <div class="mockup-menu-item mockup-menu-highlight">複製為路徑</div>
-                <div class="mockup-menu-item">重新命名</div>
+                <div class="mockup-menu-item" data-i18n="step2.help.win.menuOpen">開啟</div>
+                <div class="mockup-menu-item mockup-menu-highlight" data-i18n="step2.help.win.menuCopyPath">複製為路徑</div>
+                <div class="mockup-menu-item" data-i18n="step2.help.win.menuRename">重新命名</div>
               </div>
-              <div class="mockup-hintline"><kbd>Shift</kbd> + 右鍵</div>
+              <div class="mockup-hintline" data-i18n-html="step2.help.win.hintline"><kbd>Shift</kbd> + 右鍵</div>
             </div>
           </div>
         </div>
@@ -312,77 +355,87 @@
   </div>
 
   <div class="panel options">
-    <h2>③ 選項</h2>
+    <h2 data-i18n="step3.heading">③ 選項</h2>
 
     <div class="option-block">
-      <label><input type="checkbox" id="optUseSeratoCueExtras" checked /> 轉換 Hot Cue / Loop 資訊</label>
-      <p class="option-desc">開啟:Hot Cue、Loop 完全比照 Serato 原始設定轉換過去。關閉:完全不處理 Cue/Hot Cue/Loop,只轉換歌曲本身的資訊(標題、演出者、專輯等)。</p>
+      <label><input type="checkbox" id="optUseSeratoCueExtras" checked /> <span data-i18n="step3.checkboxLabel">轉換 Hot Cue / Loop 資訊</span></label>
+      <p class="option-desc" data-i18n="step3.desc">開啟:Hot Cue、Loop 完全比照 Serato 原始設定轉換過去。關閉:完全不處理 Cue/Hot Cue/Loop,只轉換歌曲本身的資訊(標題、演出者、專輯等)。</p>
     </div>
   </div>
 
   <div class="panel">
-    <h2>④ 開始轉換</h2>
+    <h2 data-i18n="step4.heading">④ 開始轉換</h2>
     <div class="row">
-      <button type="button" id="convertBtn" disabled>開始轉換</button>
+      <button type="button" id="convertBtn" disabled data-i18n="step4.btnConvert">開始轉換</button>
     </div>
     <div class="progress-track"><div class="progress-fill" id="progressBar"></div></div>
-    <div id="progressLabel">尚未開始</div>
+    <div id="progressLabel" data-i18n="step4.progressNotStarted">尚未開始</div>
     <div id="logArea"></div>
 
     <div class="hidden" id="resultsArea">
       <div id="summaryText"></div>
       <div class="row">
-        <button type="button" id="downloadXmlBtn">下載 Rekordbox XML</button>
-        <button type="button" class="secondary" id="downloadReportBtn">下載報告(report.txt)</button>
+        <button type="button" id="downloadXmlBtn" data-i18n="step4.btnDownloadXml">下載 Rekordbox XML</button>
+        <button type="button" class="secondary" id="downloadReportBtn" data-i18n="step4.btnDownloadReport">下載報告(report.txt)</button>
       </div>
     </div>
   </div>
 
   <div class="panel">
-    <h2>⑤ 怎麼把 XML 匯入 Rekordbox</h2>
+    <h2 data-i18n="step5.heading">⑤ 怎麼把 XML 匯入 Rekordbox</h2>
     <ol class="import-steps">
-      <li>打開 Rekordbox,點左上角選單進入「<strong>喜好設定</strong>」</li>
-      <li>上方分頁點「<strong>檢視</strong>」,再點左邊的「<strong>配置</strong>」,在「<strong>樹狀檢視</strong>」裡確認「<strong>rekordbox xml</strong>」已經打勾(沒打勾的話,匯入後左側清單不會出現這個項目)</li>
-      <li>上方分頁點「<strong>進階</strong>」,再點左邊的「<strong>資料庫</strong>」</li>
-      <li>找到「<strong>rekordbox xml</strong>」區塊裡的「<strong>匯入資料庫</strong>」欄位,按旁邊的「<strong>瀏覽</strong>」按鈕</li>
-      <li>選你剛剛下載的那個 <code>.xml</code> 檔案(通常在「下載項目」資料夾裡),選完關掉喜好設定視窗</li>
-      <li>左側清單會自動出現「<strong>rekordbox xml</strong>」項目,展開就能看到「全部音軌」和你的播放列表</li>
-      <li>在想要的播放列表上按<strong>右鍵</strong>,選擇「<strong>匯入播放清單</strong>」,才算真正加進你的曲庫(單純看得到不算匯入)</li>
+      <li data-i18n-html="step5.li1">打開 Rekordbox,點左上角選單進入「<strong>喜好設定</strong>」</li>
+      <li data-i18n-html="step5.li2">上方分頁點「<strong>檢視</strong>」,再點左邊的「<strong>配置</strong>」,在「<strong>樹狀檢視</strong>」裡確認「<strong>rekordbox xml</strong>」已經打勾(沒打勾的話,匯入後左側清單不會出現這個項目)</li>
+      <li data-i18n-html="step5.li3">上方分頁點「<strong>進階</strong>」,再點左邊的「<strong>資料庫</strong>」</li>
+      <li data-i18n-html="step5.li4">找到「<strong>rekordbox xml</strong>」區塊裡的「<strong>匯入資料庫</strong>」欄位,按旁邊的「<strong>瀏覽</strong>」按鈕</li>
+      <li data-i18n-html="step5.li5">選你剛剛下載的那個 <code>.xml</code> 檔案(通常在「下載項目」資料夾裡),選完關掉喜好設定視窗</li>
+      <li data-i18n-html="step5.li6">左側清單會自動出現「<strong>rekordbox xml</strong>」項目,展開就能看到「全部音軌」和你的播放列表</li>
+      <li data-i18n-html="step5.li7">在想要的播放列表上按<strong>右鍵</strong>,選擇「<strong>匯入播放清單</strong>」,才算真正加進你的曲庫(單純看得到不算匯入)</li>
     </ol>
 
-    <p class="screenshot-caption">步驟②:喜好設定 → 檢視 → 配置,確認「rekordbox xml」已勾選</p>
-    <div class="screenshot">
-      <img src="images/rekordbox-view-config.png" alt="Rekordbox 檢視設定,確認 rekordbox xml 已勾選" />
-      <div class="callout" style="top: 81%; left: 31%; width: 19%; height: 6%;"></div>
-      <div class="callout-label" style="top: 76%; left: 31%;">② 確認已勾選</div>
-    </div>
+    <details class="help-details">
+      <summary data-i18n="step5.help.summary">❓ 不知道畫面在哪裡?點這裡看圖解教學(附截圖)</summary>
 
-    <p class="screenshot-caption">步驟③④⑤:喜好設定 → 進階 → 資料庫,選好 XML 檔案再按瀏覽</p>
-    <div class="screenshot">
-      <img src="images/rekordbox-preferences.png" alt="Rekordbox 喜好設定畫面" />
-      <div class="callout" style="top: 1%; left: 62%; width: 12%; height: 18%;"></div>
-      <div class="callout-label" style="top: 0.5%; left: 58%;">③ 進階</div>
-      <div class="callout" style="top: 19%; left: 0.5%; width: 24%; height: 12%;"></div>
-      <div class="callout-label" style="top: 15%; left: 0.5%;">④ 資料庫</div>
-      <div class="callout" style="top: 86%; left: 18%; width: 80%; height: 10%;"></div>
-      <div class="callout-label" style="top: 82%; left: 18%;">⑤ 選 XML,按瀏覽</div>
-    </div>
+      <p class="screenshot-caption" data-i18n="step5.caption2">步驟②:喜好設定 → 檢視 → 配置,確認「rekordbox xml」已勾選</p>
+      <div class="screenshot">
+        <img src="images/rekordbox-view-config.png" data-i18n-alt="step5.alt2" alt="Rekordbox 檢視設定,確認 rekordbox xml 已勾選" />
+        <div class="callout" style="top: 81%; left: 31%; width: 19%; height: 6%;"></div>
+        <div class="callout-label" style="top: 76%; left: 31%;" data-i18n="step5.callout2">② 確認已勾選</div>
+      </div>
 
-    <p class="screenshot-caption">步驟⑥⑦:左側會出現「rekordbox xml」,在播放列表上按右鍵選「匯入播放清單」</p>
-    <div class="screenshot">
-      <img src="images/rekordbox-playlist-import.png" alt="Rekordbox 右鍵選單匯入播放清單" />
-      <div class="callout" style="top: 52%; left: 1%; width: 38%; height: 31%;"></div>
-      <div class="callout-label" style="top: 47%; left: 1%;">⑥ 你的播放列表</div>
-      <div class="callout" style="top: 51%; left: 47%; width: 53%; height: 34%;"></div>
-      <div class="callout-label" style="top: 46%; left: 47%;">⑦ 按右鍵→匯入播放清單</div>
-    </div>
+      <p class="screenshot-caption" data-i18n="step5.caption345">步驟③④⑤:喜好設定 → 進階 → 資料庫,選好 XML 檔案再按瀏覽</p>
+      <div class="screenshot">
+        <img src="images/rekordbox-preferences.png" data-i18n-alt="step5.alt345" alt="Rekordbox 喜好設定畫面" />
+        <div class="callout" style="top: 1%; left: 62%; width: 12%; height: 18%;"></div>
+        <div class="callout-label" style="top: 0.5%; left: 58%;" data-i18n="step5.callout3">③ 進階</div>
+        <div class="callout" style="top: 19%; left: 0.5%; width: 24%; height: 12%;"></div>
+        <div class="callout-label" style="top: 15%; left: 0.5%;" data-i18n="step5.callout4">④ 資料庫</div>
+        <div class="callout" style="top: 86%; left: 18%; width: 80%; height: 10%;"></div>
+        <div class="callout-label" style="top: 82%; left: 18%;" data-i18n="step5.callout5">⑤ 選 XML,按瀏覽</div>
+      </div>
+
+      <p class="screenshot-caption" data-i18n="step5.caption67">步驟⑥⑦:左側會出現「rekordbox xml」,在播放列表上按右鍵選「匯入播放清單」</p>
+      <div class="screenshot">
+        <img src="images/rekordbox-playlist-import.png" data-i18n-alt="step5.alt67" alt="Rekordbox 右鍵選單匯入播放清單" />
+        <div class="callout" style="top: 52%; left: 1%; width: 38%; height: 31%;"></div>
+        <div class="callout-label" style="top: 47%; left: 1%;" data-i18n="step5.callout6">⑥ 你的播放列表</div>
+        <div class="callout" style="top: 51%; left: 47%; width: 53%; height: 34%;"></div>
+        <div class="callout-label" style="top: 46%; left: 47%;" data-i18n="step5.callout7">⑦ 按右鍵→匯入播放清單</div>
+      </div>
+    </details>
   </div>
 
   <div class="site-footer">
-    <a href="privacy.html">隱私權政策</a> &middot; <a href="disclaimer.html">免責聲明</a>
+    <a href="privacy.html" data-i18n="footer.privacy">隱私權政策</a> &middot; <a href="disclaimer.html" data-i18n="footer.disclaimer">免責聲明</a>
   </div>
 </div>
 
+<script src="js/i18n.js"></script>
+<script>
+  document.getElementById("langSwitcher").addEventListener("change", function (e) {
+    window.S2R_I18N.setLang(e.target.value);
+  });
+</script>
 <script src="js/utils.js"></script>
 <script src="js/id3.js"></script>
 <script src="js/riff_aiff.js"></script>

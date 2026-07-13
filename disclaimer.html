@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>免責聲明 — Serato → Rekordbox 轉換工具</title>
+<title data-i18n="disclaimer.title">免責聲明 — Serato → Rekordbox 轉換工具</title>
 <style>
   :root {
     color-scheme: light dark;
@@ -50,39 +50,63 @@
   }
   .panel.warn { border-left: 4px solid var(--warn); }
   .back-link { display: inline-block; margin-top: 24px; font-size: 0.88rem; }
+  .lang-switcher-row { display: flex; justify-content: flex-end; margin-bottom: 12px; }
+  .lang-switcher {
+    background: var(--panel);
+    color: var(--text);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 4px 8px;
+    font-size: 0.8rem;
+  }
 </style>
 </head>
 <body>
 <div class="wrap">
-  <h1>免責聲明</h1>
-  <div class="subtitle">Serato → Rekordbox 轉換工具(離線網頁版)</div>
+  <div class="lang-switcher-row">
+    <select class="lang-switcher" id="langSwitcher" data-lang-switcher>
+      <option value="zh-Hant">繁體中文</option>
+      <option value="zh-Hans">简体中文</option>
+      <option value="en">English</option>
+    </select>
+  </div>
+
+  <h1 data-i18n="disclaimer.h1">免責聲明</h1>
+  <div class="subtitle" data-i18n="privacy.subtitle">Serato → Rekordbox 轉換工具(離線網頁版)</div>
 
   <div class="panel">
-    <h2>非官方工具</h2>
-    <p>本工具為個人開發、提供給 DJ 自行轉換自己音樂庫用的非官方小工具,與 Serato Inc.、AlphaTheta Corporation(rekordbox / Pioneer DJ)並無任何隸屬、合作、授權或背書關係。「Serato」「rekordbox」等名稱及商標均為其個別公司所有。</p>
+    <h2 data-i18n="disclaimer.section1.h2">非官方工具</h2>
+    <p data-i18n-html="disclaimer.section1.p1">本工具為個人開發、提供給 DJ 自行轉換自己音樂庫用的非官方小工具,與 Serato Inc.、AlphaTheta Corporation(rekordbox / Pioneer DJ)並無任何隸屬、合作、授權或背書關係。「Serato」「rekordbox」等名稱及商標均為其個別公司所有。</p>
   </div>
 
   <div class="panel">
-    <h2>使用範圍</h2>
-    <p>本工具僅供使用者轉換<strong>自己合法擁有或有權使用</strong>的音樂檔案與播放列表資料,音樂檔案本身的著作權仍歸原創作者/發行方所有。使用者須自行確保對所處理的音樂檔案與中繼資料擁有合法使用權限,並自行負責後續使用行為是否合乎當地法規。</p>
+    <h2 data-i18n="disclaimer.section2.h2">使用範圍</h2>
+    <p data-i18n-html="disclaimer.section2.p1">本工具僅供使用者轉換<strong>自己合法擁有或有權使用</strong>的音樂檔案與播放列表資料,音樂檔案本身的著作權仍歸原創作者/發行方所有。使用者須自行確保對所處理的音樂檔案與中繼資料擁有合法使用權限,並自行負責後續使用行為是否合乎當地法規。</p>
   </div>
 
   <div class="panel warn">
-    <h2>建議先備份</h2>
-    <p>本工具在設計上只會「讀取」你的音樂檔案與 <code>_Serato_</code> 資料夾內容,不會寫入或修改任何原始檔案。即便如此,仍強烈建議在使用本工具前,先備份好你的音樂資料夾與 Serato 資料庫,以避免任何與本工具無關的意外(例如作業系統、硬碟或其他軟體造成的問題)導致資料遺失。</p>
+    <h2 data-i18n="disclaimer.section3.h2">建議先備份</h2>
+    <p data-i18n-html="disclaimer.section3.p1">本工具在設計上只會「讀取」你的音樂檔案與 <code>_Serato_</code> 資料夾內容,不會寫入或修改任何原始檔案。即便如此,仍強烈建議在使用本工具前,先備份好你的音樂資料夾與 Serato 資料庫,以避免任何與本工具無關的意外(例如作業系統、硬碟或其他軟體造成的問題)導致資料遺失。</p>
   </div>
 
   <div class="panel">
-    <h2>不保證結果正確</h2>
-    <p>本工具以「現狀」(as-is)提供,不保證產生的 Rekordbox XML 檔案在所有情況下都完全正確,也不保證能相容所有版本的 Rekordbox。匯入前後請自行核對曲目、播放列表、Hot Cue/Loop 等資訊是否符合預期。</p>
+    <h2 data-i18n="disclaimer.section4.h2">不保證結果正確</h2>
+    <p data-i18n="disclaimer.section4.p1">本工具以「現狀」(as-is)提供,不保證產生的 Rekordbox XML 檔案在所有情況下都完全正確,也不保證能相容所有版本的 Rekordbox。匯入前後請自行核對曲目、播放列表、Hot Cue/Loop 等資訊是否符合預期。</p>
   </div>
 
   <div class="panel">
-    <h2>責任限制</h2>
-    <p>使用本工具即表示你已詳閱並同意本聲明的內容,並自行承擔使用本工具的一切風險。在法律允許的最大範圍內,開發者不對因使用或無法使用本工具而導致的任何資料遺失、損毀或其他損失負責。</p>
+    <h2 data-i18n="disclaimer.section5.h2">責任限制</h2>
+    <p data-i18n="disclaimer.section5.p1">使用本工具即表示你已詳閱並同意本聲明的內容,並自行承擔使用本工具的一切風險。在法律允許的最大範圍內,開發者不對因使用或無法使用本工具而導致的任何資料遺失、損毀或其他損失負責。</p>
   </div>
 
-  <a class="back-link" href="index.html">← 回到轉換工具</a>
+  <a class="back-link" href="index.html" data-i18n="common.backToTool">← 回到轉換工具</a>
 </div>
+
+<script src="js/i18n.js"></script>
+<script>
+  document.getElementById("langSwitcher").addEventListener("change", function (e) {
+    window.S2R_I18N.setLang(e.target.value);
+  });
+</script>
 </body>
 </html>

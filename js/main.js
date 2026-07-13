@@ -87,20 +87,19 @@
   let seratoScannedSample = []; // a few example paths, for the "found nothing" hint
 
   function refreshSeratoStatus() {
+    const t = window.S2R_I18N.t;
     if (seratoCrateFiles.length) {
       const names = seratoCrateFiles.map((f) => f.file.name);
       const shown = names.slice(0, 5).join("、");
-      const suffix = names.length > 5 ? ` 等,共 ${names.length} 個` : "";
-      seratoStatus.textContent = `已讀取 ${seratoCrateFiles.length} 個 .crate 播放列表:${shown}${suffix}`;
+      const suffix = names.length > 5 ? t("status.serato.loadedSuffix", { n: names.length }) : "";
+      seratoStatus.textContent = t("status.serato.loaded", { count: seratoCrateFiles.length, shown, suffix });
       seratoStatus.className = "status ok";
     } else if (seratoScannedCount > 0) {
       const sample = seratoScannedSample.slice(0, 3).join("、");
-      seratoStatus.textContent =
-        `掃到 ${seratoScannedCount} 個檔案,但裡面沒有任何 .crate(例如:${sample})。` +
-        `請確認選到的資料夾底下真的有 Subcrates 資料夾、裡面是 .crate 檔案。`;
+      seratoStatus.textContent = t("status.serato.scannedNoCrate", { count: seratoScannedCount, sample });
       seratoStatus.className = "status warn";
     } else {
-      seratoStatus.textContent = "尚未選擇";
+      seratoStatus.textContent = t("common.notSelected");
       seratoStatus.className = "status warn";
     }
   }
@@ -172,8 +171,8 @@
     }
     const folder = musicFiles[0].topFolder;
     rootRow.classList.remove("hidden");
-    rootLabel.textContent = `「${folder}」資料夾在你電腦上的完整路徑:`;
-    rootInput.placeholder = `例如 /Users/yourname/Music/${folder}`;
+    rootLabel.textContent = window.S2R_I18N.t("step2.rootLabel", { folder });
+    rootInput.placeholder = window.S2R_I18N.t("step2.rootPlaceholder", { folder });
     rootInput.dataset.folder = folder;
     rootInput.value = loadStoredFolderRoot(folder);
     updatePathWarning();
@@ -192,8 +191,12 @@
     const ignoredFolders = new Set(supported.filter((e) => e.topFolder !== firstFolder).map((e) => e.topFolder));
     musicFiles = kept; // single-folder mode: a new selection replaces the old one
     musicStatus.textContent = ignoredFolders.size
-      ? `已選擇「${firstFolder}」,共 ${musicFiles.length} 個音樂檔案(這裡只支援單一資料夾,已忽略:${Array.from(ignoredFolders).join("、")})`
-      : `已選擇 ${musicFiles.length} 個音樂檔案`;
+      ? window.S2R_I18N.t("status.music.selectedIgnored", {
+          folder: firstFolder,
+          count: musicFiles.length,
+          ignored: Array.from(ignoredFolders).join("、"),
+        })
+      : window.S2R_I18N.t("status.music.selected", { count: musicFiles.length });
     musicStatus.className = "status ok";
     renderRootRow();
   }
@@ -217,7 +220,7 @@
 
   document.getElementById("clearMusicBtn").addEventListener("click", () => {
     musicFiles = [];
-    musicStatus.textContent = "尚未選擇";
+    musicStatus.textContent = window.S2R_I18N.t("common.notSelected");
     musicStatus.className = "status warn";
     renderRootRow();
   });
@@ -356,10 +359,14 @@
     logArea.scrollTop = logArea.scrollHeight;
   }
 
-  function setProgress(done, total, label) {
+  function setProgress(done, total, labelKey) {
     const pct = total ? Math.round((done / total) * 100) : 0;
     progressBar.style.width = pct + "%";
-    progressLabel.textContent = `${label} (${done}/${total})`;
+    progressLabel.textContent = window.S2R_I18N.t("progress.labelFormat", {
+      label: window.S2R_I18N.t(labelKey),
+      done,
+      total,
+    });
   }
 
   function yieldToUI() {
@@ -378,7 +385,7 @@
     let nocueCount = 0;
     let errorCount = 0;
 
-    setProgress(0, musicFiles.length, "掃描音樂檔案並讀取 Cue 資訊");
+    setProgress(0, musicFiles.length, "progress.scanning");
     for (let i = 0; i < musicFiles.length; i++) {
       const result = await extractTrack(musicFiles[i], root);
       if (result.status === "OK") {
@@ -395,21 +402,21 @@
         report.push(`${result.status}\t${result.relativePath}`);
       }
       if (i % 15 === 0 || i === musicFiles.length - 1) {
-        setProgress(i + 1, musicFiles.length, "掃描音樂檔案並讀取 Cue 資訊");
+        setProgress(i + 1, musicFiles.length, "progress.scanning");
         await yieldToUI();
       }
     }
 
-    log(`掃描完成:OK ${okCount}、NOCUE ${nocueCount}、ERROR ${errorCount}`);
+    log(window.S2R_I18N.t("log.scanDone", { ok: okCount, nocue: nocueCount, error: errorCount }));
 
-    setProgress(0, 1, "讀取 Serato 播放列表");
+    setProgress(0, 1, "progress.loadingCrates");
     await yieldToUI();
     const { crates, errors: crateErrors } = await loadCrates();
     for (const err of crateErrors) log(`CRATE_ERROR\t${err}`);
     const playlistTree = crates.length ? window.S2R.buildPlaylistTree(crates) : null;
-    if (playlistTree) log(`已讀取 ${crates.length} 個播放列表`);
+    if (playlistTree) log(window.S2R_I18N.t("log.playlistsLoaded", { count: crates.length }));
 
-    setProgress(1, 1, "產生 Rekordbox XML");
+    setProgress(1, 1, "progress.buildingXml");
     await yieldToUI();
 
     const includeCues = document.getElementById("optUseSeratoCueExtras").checked;
@@ -423,11 +430,13 @@
     lastReport = report.join("\n") + "\n";
 
     summaryText.textContent =
-      `共 ${musicFiles.length} 個檔案:OK ${okCount}、NOCUE ${nocueCount}、ERROR ${errorCount}。` +
-      (playlistTree ? ` 播放列表比對:缺少 ${missing.length}、模糊比對 ${fuzzy.length}。` : " 沒有匯入播放列表。");
+      window.S2R_I18N.t("summary.main", { total: musicFiles.length, ok: okCount, nocue: nocueCount, error: errorCount }) +
+      (playlistTree
+        ? window.S2R_I18N.t("summary.playlistMatch", { missing: missing.length, fuzzy: fuzzy.length })
+        : window.S2R_I18N.t("summary.noPlaylist"));
     resultsArea.classList.remove("hidden");
     document.getElementById("convertBtn").disabled = false;
-    log("完成!可以下載 XML 了。");
+    log(window.S2R_I18N.t("log.done"));
   }
 
   function downloadText(filename, text, mime) {
@@ -444,7 +453,7 @@
 
   document.getElementById("convertBtn").addEventListener("click", () => {
     runConvert().catch((e) => {
-      log("發生未預期的錯誤:" + ((e && e.stack) || e));
+      log(window.S2R_I18N.t("log.unexpectedError", { error: (e && e.stack) || e }));
       document.getElementById("convertBtn").disabled = false;
     });
   });
