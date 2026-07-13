@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>免責聲明 — Serato → Rekordbox 轉換工具</title>
+<style>
+  :root {
+    color-scheme: light dark;
+    --bg: #f5f5f7;
+    --panel: #ffffff;
+    --text: #1c1c1e;
+    --muted: #6b7280;
+    --accent: #2563eb;
+    --warn: #d97706;
+    --border: #d1d5db;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #111114;
+      --panel: #1c1c22;
+      --text: #f3f4f6;
+      --muted: #9ca3af;
+      --accent: #60a5fa;
+      --warn: #fbbf24;
+      --border: #33333a;
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    padding: 24px;
+  }
+  .wrap { max-width: 720px; margin: 0 auto; }
+  h1 { font-size: 1.3rem; margin-bottom: 4px; }
+  h2 { font-size: 1.02rem; margin: 28px 0 8px; }
+  .subtitle { color: var(--muted); margin-bottom: 24px; font-size: 0.88rem; }
+  p, li { line-height: 1.7; font-size: 0.92rem; }
+  ul { padding-left: 20px; }
+  a { color: var(--accent); }
+  .panel {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 16px 20px;
+    margin-bottom: 16px;
+  }
+  .panel.warn { border-left: 4px solid var(--warn); }
+  .back-link { display: inline-block; margin-top: 24px; font-size: 0.88rem; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>免責聲明</h1>
+  <div class="subtitle">Serato → Rekordbox 轉換工具(離線網頁版)</div>
+
+  <div class="panel">
+    <h2>非官方工具</h2>
+    <p>本工具為個人開發、提供給 DJ 自行轉換自己音樂庫用的非官方小工具,與 Serato Inc.、AlphaTheta Corporation(rekordbox / Pioneer DJ)並無任何隸屬、合作、授權或背書關係。「Serato」「rekordbox」等名稱及商標均為其個別公司所有。</p>
+  </div>
+
+  <div class="panel">
+    <h2>使用範圍</h2>
+    <p>本工具僅供使用者轉換<strong>自己合法擁有或有權使用</strong>的音樂檔案與播放列表資料,音樂檔案本身的著作權仍歸原創作者/發行方所有。使用者須自行確保對所處理的音樂檔案與中繼資料擁有合法使用權限,並自行負責後續使用行為是否合乎當地法規。</p>
+  </div>
+
+  <div class="panel warn">
+    <h2>建議先備份</h2>
+    <p>本工具在設計上只會「讀取」你的音樂檔案與 <code>_Serato_</code> 資料夾內容,不會寫入或修改任何原始檔案。即便如此,仍強烈建議在使用本工具前,先備份好你的音樂資料夾與 Serato 資料庫,以避免任何與本工具無關的意外(例如作業系統、硬碟或其他軟體造成的問題)導致資料遺失。</p>
+  </div>
+
+  <div class="panel">
+    <h2>不保證結果正確</h2>
+    <p>本工具以「現狀」(as-is)提供,不保證產生的 Rekordbox XML 檔案在所有情況下都完全正確,也不保證能相容所有版本的 Rekordbox。匯入前後請自行核對曲目、播放列表、Hot Cue/Loop 等資訊是否符合預期。</p>
+  </div>
+
+  <div class="panel">
+    <h2>責任限制</h2>
+    <p>使用本工具即表示你已詳閱並同意本聲明的內容,並自行承擔使用本工具的一切風險。在法律允許的最大範圍內,開發者不對因使用或無法使用本工具而導致的任何資料遺失、損毀或其他損失負責。</p>
+  </div>
+
+  <a class="back-link" href="index.html">← 回到轉換工具</a>
+</div>
+</body>
+</html>

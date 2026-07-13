@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>隱私權政策 — Serato → Rekordbox 轉換工具</title>
+<style>
+  :root {
+    color-scheme: light dark;
+    --bg: #f5f5f7;
+    --panel: #ffffff;
+    --text: #1c1c1e;
+    --muted: #6b7280;
+    --accent: #2563eb;
+    --border: #d1d5db;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #111114;
+      --panel: #1c1c22;
+      --text: #f3f4f6;
+      --muted: #9ca3af;
+      --accent: #60a5fa;
+      --border: #33333a;
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    padding: 24px;
+  }
+  .wrap { max-width: 720px; margin: 0 auto; }
+  h1 { font-size: 1.3rem; margin-bottom: 4px; }
+  h2 { font-size: 1.02rem; margin: 28px 0 8px; }
+  .subtitle { color: var(--muted); margin-bottom: 24px; font-size: 0.88rem; }
+  p, li { line-height: 1.7; font-size: 0.92rem; }
+  ul { padding-left: 20px; }
+  a { color: var(--accent); }
+  .panel {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 16px 20px;
+    margin-bottom: 16px;
+  }
+  .back-link { display: inline-block; margin-top: 24px; font-size: 0.88rem; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>隱私權政策</h1>
+  <div class="subtitle">Serato → Rekordbox 轉換工具(離線網頁版)</div>
+
+  <div class="panel">
+    <h2>這個工具怎麼處理你的資料</h2>
+    <p>本工具是一個純前端(client-side)網頁應用程式。你選取或拖入的音樂檔案、Serato 播放列表(<code>.crate</code>)資料,全部只會在<strong>你自己電腦上的瀏覽器裡</strong>被讀取與解析,用來產生 Rekordbox XML 檔案。整個過程中,這些檔案內容<strong>不會透過網路上傳、傳送或儲存到任何伺服器</strong>,包含本網站本身的伺服器在內。</p>
+    <p>你關閉分頁或重新整理頁面後,所有已讀取的資料就會從瀏覽器記憶體中清除。</p>
+  </div>
+
+  <div class="panel">
+    <h2>本機儲存(localStorage)</h2>
+    <p>為了方便使用,本工具會用瀏覽器的 <code>localStorage</code> 記住你輸入過的「音樂資料夾絕對路徑」文字,純粹是為了下次不用重新輸入。這筆資料只存在你自己的瀏覽器裡,不會被傳送出去,你可以隨時透過瀏覽器設定清除網站資料來移除它。</p>
+  </div>
+
+  <div class="panel">
+    <h2>Cookie 與追蹤</h2>
+    <p>本工具目前沒有使用任何 Cookie、分析工具(如 Google Analytics)或廣告。</p>
+  </div>
+
+  <div class="panel">
+    <h2>網站託管</h2>
+    <p>本網站由 GitHub Pages 提供靜態網頁託管。GitHub 可能依其自身服務需求,記錄基本的伺服器存取紀錄(例如 IP 位址、瀏覽器資訊),這部分不屬於本工具的控制範圍,詳情請參考 <a href="https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement" target="_blank" rel="noopener">GitHub 的隱私權聲明</a>。</p>
+  </div>
+
+  <div class="panel">
+    <h2>未來若有變更</h2>
+    <p>若本工具未來新增任何會蒐集資料、使用 Cookie 或投放廣告的功能,會在此頁面更新說明。</p>
+  </div>
+
+  <a class="back-link" href="index.html">← 回到轉換工具</a>
+</div>
+</body>
+</html>

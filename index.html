@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Serato → Rekordbox 轉換工具(離線網頁版)</title>
+<style>
+  :root {
+    color-scheme: light dark;
+    --bg: #f5f5f7;
+    --panel: #ffffff;
+    --text: #1c1c1e;
+    --muted: #6b7280;
+    --accent: #2563eb;
+    --ok: #16a34a;
+    --warn: #d97706;
+    --border: #d1d5db;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #111114;
+      --panel: #1c1c22;
+      --text: #f3f4f6;
+      --muted: #9ca3af;
+      --accent: #60a5fa;
+      --ok: #4ade80;
+      --warn: #fbbf24;
+      --border: #33333a;
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    padding: 24px;
+  }
+  .wrap { max-width: 760px; margin: 0 auto; }
+  h1 { font-size: 1.4rem; margin-bottom: 4px; }
+  .subtitle { color: var(--muted); margin-bottom: 20px; font-size: 0.9rem; }
+  .notice {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-left: 4px solid var(--ok);
+    border-radius: 8px;
+    padding: 12px 16px;
+    margin-bottom: 20px;
+    font-size: 0.88rem;
+    line-height: 1.6;
+  }
+  .notice.warn-notice { border-left-color: var(--warn); }
+  .site-footer {
+    margin: 32px 0 12px;
+    text-align: center;
+    font-size: 0.8rem;
+    color: var(--muted);
+  }
+  .site-footer a { color: var(--muted); text-decoration: underline; }
+  .site-footer a:hover { color: var(--accent); }
+  .panel {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 16px;
+    margin-bottom: 16px;
+  }
+  .panel h2 { font-size: 1rem; margin: 0 0 10px; }
+  .dropzone {
+    border: 2px dashed var(--border);
+    border-radius: 8px;
+    padding: 24px;
+    text-align: center;
+    color: var(--muted);
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: border-color 0.15s, background 0.15s;
+  }
+  .dropzone.dragover { border-color: var(--accent); background: rgba(37,99,235,0.06); }
+  .status { margin-top: 8px; font-size: 0.85rem; }
+  .status.ok { color: var(--ok); }
+  .status.warn { color: var(--warn); }
+  .root-row { margin-top: 10px; }
+  .root-row label { display: block; font-size: 0.82rem; color: var(--muted); margin-bottom: 4px; }
+  .root-input {
+    width: 100%;
+    padding: 8px 10px;
+    border-radius: 6px;
+    border: 1px solid var(--border);
+    background: var(--bg);
+    color: var(--text);
+    font-size: 0.88rem;
+  }
+  .options label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.88rem;
+  }
+  .option-block { margin-bottom: 18px; }
+  .option-block:last-child { margin-bottom: 0; }
+  .option-desc { margin: 4px 0 0 26px; font-size: 0.78rem; color: var(--muted); line-height: 1.5; }
+  .import-steps { margin: 0; padding-left: 20px; font-size: 0.88rem; line-height: 1.9; }
+  .screenshot-caption { font-size: 0.78rem; color: var(--muted); margin: 16px 0 6px; }
+  .screenshot {
+    position: relative;
+    display: block;
+    max-width: 480px;
+    margin: 0 auto 8px;
+    border-radius: 8px;
+    overflow: hidden;
+    border: 1px solid var(--border);
+  }
+  .screenshot img { display: block; width: 100%; height: auto; }
+  .callout {
+    position: absolute;
+    border: 2px solid #f87171;
+    border-radius: 6px;
+    box-shadow: 0 0 0 9999px rgba(0, 0, 0, 0.4);
+    pointer-events: none;
+  }
+  .callout-label {
+    position: absolute;
+    background: #f87171;
+    color: #1c1c1e;
+    font-size: 0.66rem;
+    font-weight: 700;
+    padding: 2px 6px;
+    border-radius: 4px;
+    pointer-events: none;
+    white-space: nowrap;
+  }
+  .row { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+  button {
+    background: var(--accent);
+    color: white;
+    border: none;
+    border-radius: 6px;
+    padding: 10px 18px;
+    font-size: 0.9rem;
+    cursor: pointer;
+  }
+  button:disabled { opacity: 0.4; cursor: not-allowed; }
+  button.secondary { background: transparent; color: var(--accent); border: 1px solid var(--accent); }
+  .progress-track {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    height: 10px;
+    overflow: hidden;
+    margin: 10px 0 6px;
+  }
+  .progress-fill { background: var(--accent); height: 100%; width: 0%; transition: width 0.2s; }
+  #progressLabel { font-size: 0.82rem; color: var(--muted); }
+  #logArea {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 10px;
+    height: 140px;
+    overflow-y: auto;
+    font-family: ui-monospace, monospace;
+    font-size: 0.78rem;
+    white-space: pre-wrap;
+    margin-top: 10px;
+  }
+  .hidden { display: none; }
+  #summaryText { font-size: 0.88rem; margin-bottom: 12px; }
+  input[type="file"] { display: none; }
+
+  .help-details { margin-top: 14px; border-top: 1px solid var(--border); padding-top: 10px; }
+  .help-details summary { cursor: pointer; font-size: 0.86rem; color: var(--accent); user-select: none; }
+  .help-columns { display: flex; gap: 16px; flex-wrap: wrap; margin-top: 12px; }
+  .help-col { flex: 1 1 260px; min-width: 240px; }
+  .help-col h3 { font-size: 0.9rem; margin: 0 0 6px; }
+  .help-col ol { margin: 0 0 10px; padding-left: 20px; font-size: 0.82rem; line-height: 1.7; color: var(--muted); }
+  kbd {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 1px 6px;
+    font-family: ui-monospace, monospace;
+    font-size: 0.78rem;
+  }
+  code {
+    background: var(--bg);
+    border-radius: 4px;
+    padding: 1px 5px;
+    font-family: ui-monospace, monospace;
+    font-size: 0.85rem;
+  }
+
+  .mockup {
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    overflow: hidden;
+    font-size: 0.78rem;
+    max-width: 100%;
+  }
+  .mockup-titlebar { display: flex; align-items: center; gap: 6px; padding: 6px 10px; }
+  .mac-titlebar { background: #3a3a3e; color: #ddd; }
+  .win-titlebar { background: #2b579a; color: #fff; }
+  .dot { width: 9px; height: 9px; border-radius: 50%; display: inline-block; }
+  .dot.red { background: #ff5f57; }
+  .dot.yellow { background: #febc2e; }
+  .dot.green { background: #28c840; }
+  .mockup-title { margin-left: 6px; font-size: 0.76rem; opacity: 0.9; }
+  .mockup-body { background: #111114; color: #ddd; padding: 10px; }
+  .mockup-dragrow { display: flex; align-items: center; gap: 8px; padding: 6px 8px; background: #1c1c22; border-radius: 6px; margin-bottom: 8px; flex-wrap: wrap; }
+  .mockup-folder-icon { font-size: 1rem; }
+  .mockup-arrow { color: #60a5fa; margin-left: auto; font-size: 0.74rem; }
+  .mockup-hint { color: #6b7280; font-size: 0.74rem; }
+  .mockup-terminal-line { font-family: ui-monospace, monospace; color: #4ade80; padding: 6px 8px; }
+  .mockup-terminal-line::before { content: "$ "; opacity: 0.6; }
+  .mockup-menu { border: 1px solid #333; border-radius: 4px; overflow: hidden; margin-bottom: 8px; }
+  .mockup-menu-item { padding: 5px 10px; background: #1c1c22; border-bottom: 1px solid #2a2a30; }
+  .mockup-menu-item:last-child { border-bottom: none; }
+  .mockup-menu-highlight { background: #2563eb; color: #fff; }
+  .mockup-hintline { text-align: right; color: #6b7280; font-size: 0.74rem; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Serato → Rekordbox 轉換工具</h1>
+  <div class="subtitle">離線網頁版 &middot; 純瀏覽器端執行</div>
+
+  <div class="notice">
+    這個頁面完全在你的瀏覽器裡執行,音樂檔案只會在本機被讀取來解析 Cue 資訊,不會透過網路傳送到任何地方,也不會離開這台電腦。關掉分頁資料就消失了。
+  </div>
+
+  <div class="notice warn-notice">
+    <strong>建議:</strong>雖然本工具只會「讀取」你的音樂檔案與 Serato 資料庫、不會覆寫或修改原始檔案,轉檔前還是建議先備份好你的音樂資料夾與 <code>_Serato_</code> 資料夾,以防萬一(例如硬碟異常、誤刪等與本工具無關的意外)。
+  </div>
+
+  <div class="panel">
+    <h2>① Serato 播放列表(選填,用來還原歌曲順序)</h2>
+    <div id="seratoDropZone" class="dropzone">
+      把 <code>_Serato_</code> 資料夾或單一 <code>.crate</code> 檔案拖到這裡,或
+      <button type="button" class="secondary" onclick="document.getElementById('seratoFolderInput').click()">選擇資料夾</button>
+      <button type="button" class="secondary" onclick="document.getElementById('seratoFileInput').click()">選擇 .crate 檔案</button>
+    </div>
+    <input type="file" id="seratoFolderInput" webkitdirectory directory multiple />
+    <input type="file" id="seratoFileInput" accept=".crate" multiple />
+    <div class="row" style="margin-top:8px;">
+      <div id="seratoStatus" class="status warn">尚未選擇</div>
+      <button type="button" class="secondary" id="clearSeratoBtn">清空重選</button>
+    </div>
+  </div>
+
+  <div class="panel">
+    <h2>② 音樂資料夾(單一資料夾)</h2>
+    <div id="musicDropZone" class="dropzone">
+      把「一個」音樂資料夾拖到這裡,或
+      <button type="button" class="secondary" onclick="document.getElementById('musicInput').click()">選擇資料夾</button>
+    </div>
+    <input type="file" id="musicInput" webkitdirectory directory />
+    <div class="row" style="margin-top:8px;">
+      <div id="musicStatus" class="status warn">尚未選擇</div>
+      <button type="button" class="secondary" id="clearMusicBtn">清空重選</button>
+    </div>
+    <div id="rootRow" class="root-row hidden">
+      <label id="rootLabel"></label>
+      <input type="text" id="rootInput" class="root-input" placeholder="例如 /Users/yourname/Music/IMDJ" />
+    </div>
+    <div id="pathWarning" class="status warn"></div>
+
+    <details class="help-details">
+      <summary>❓ 不知道怎麼找到完整路徑?點這裡看 Mac / Windows 教學</summary>
+      <div class="help-columns">
+        <div class="help-col">
+          <h3>🍎 macOS</h3>
+          <ol>
+            <li>用 Spotlight(<kbd>⌘</kbd>+<kbd>空白鍵</kbd>)打開「終端機 Terminal」</li>
+            <li>直接把你的音樂資料夾從 Finder 拖進 Terminal 視窗裡</li>
+            <li>路徑文字會自動打出來,選起來複製(<kbd>⌘C</kbd>),貼到上面的欄位就好(不用按 Enter)</li>
+          </ol>
+          <div class="mockup">
+            <div class="mockup-titlebar mac-titlebar">
+              <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+              <span class="mockup-title">終端機</span>
+            </div>
+            <div class="mockup-body">
+              <div class="mockup-dragrow"><span class="mockup-folder-icon">📁</span> IMDJ <span class="mockup-arrow">拖進來 →</span></div>
+              <div class="mockup-terminal-line">/Users/yourname/Music/IMDJ</div>
+            </div>
+          </div>
+        </div>
+        <div class="help-col">
+          <h3>🪟 Windows</h3>
+          <ol>
+            <li>在檔案總管裡,點一下「選取」你的音樂資料夾(不要打開它)</li>
+            <li>按住 <kbd>Shift</kbd> 再按滑鼠右鍵,選單裡點「複製為路徑」</li>
+            <li>貼到上面的欄位;如果前後有引號 <code>"</code>,記得刪掉</li>
+          </ol>
+          <div class="mockup">
+            <div class="mockup-titlebar win-titlebar">
+              <span class="mockup-title">📁 檔案總管</span>
+            </div>
+            <div class="mockup-body">
+              <div class="mockup-dragrow"><span class="mockup-folder-icon">📁</span> IMDJ <span class="mockup-hint">(已選取)</span></div>
+              <div class="mockup-menu">
+                <div class="mockup-menu-item">開啟</div>
+                <div class="mockup-menu-item mockup-menu-highlight">複製為路徑</div>
+                <div class="mockup-menu-item">重新命名</div>
+              </div>
+              <div class="mockup-hintline"><kbd>Shift</kbd> + 右鍵</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </details>
+  </div>
+
+  <div class="panel options">
+    <h2>③ 選項</h2>
+
+    <div class="option-block">
+      <label><input type="checkbox" id="optUseSeratoCueExtras" checked /> 轉換 Hot Cue / Loop 資訊</label>
+      <p class="option-desc">開啟:Hot Cue、Loop 完全比照 Serato 原始設定轉換過去。關閉:完全不處理 Cue/Hot Cue/Loop,只轉換歌曲本身的資訊(標題、演出者、專輯等)。</p>
+    </div>
+  </div>
+
+  <div class="panel">
+    <h2>④ 開始轉換</h2>
+    <div class="row">
+      <button type="button" id="convertBtn" disabled>開始轉換</button>
+    </div>
+    <div class="progress-track"><div class="progress-fill" id="progressBar"></div></div>
+    <div id="progressLabel">尚未開始</div>
+    <div id="logArea"></div>
+
+    <div class="hidden" id="resultsArea">
+      <div id="summaryText"></div>
+      <div class="row">
+        <button type="button" id="downloadXmlBtn">下載 Rekordbox XML</button>
+        <button type="button" class="secondary" id="downloadReportBtn">下載報告(report.txt)</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="panel">
+    <h2>⑤ 怎麼把 XML 匯入 Rekordbox</h2>
+    <ol class="import-steps">
+      <li>打開 Rekordbox,點左上角選單進入「<strong>喜好設定</strong>」</li>
+      <li>上方分頁點「<strong>檢視</strong>」,再點左邊的「<strong>配置</strong>」,在「<strong>樹狀檢視</strong>」裡確認「<strong>rekordbox xml</strong>」已經打勾(沒打勾的話,匯入後左側清單不會出現這個項目)</li>
+      <li>上方分頁點「<strong>進階</strong>」,再點左邊的「<strong>資料庫</strong>」</li>
+      <li>找到「<strong>rekordbox xml</strong>」區塊裡的「<strong>匯入資料庫</strong>」欄位,按旁邊的「<strong>瀏覽</strong>」按鈕</li>
+      <li>選你剛剛下載的那個 <code>.xml</code> 檔案(通常在「下載項目」資料夾裡),選完關掉喜好設定視窗</li>
+      <li>左側清單會自動出現「<strong>rekordbox xml</strong>」項目,展開就能看到「全部音軌」和你的播放列表</li>
+      <li>在想要的播放列表上按<strong>右鍵</strong>,選擇「<strong>匯入播放清單</strong>」,才算真正加進你的曲庫(單純看得到不算匯入)</li>
+    </ol>
+
+    <p class="screenshot-caption">步驟②:喜好設定 → 檢視 → 配置,確認「rekordbox xml」已勾選</p>
+    <div class="screenshot">
+      <img src="images/rekordbox-view-config.png" alt="Rekordbox 檢視設定,確認 rekordbox xml 已勾選" />
+      <div class="callout" style="top: 81%; left: 31%; width: 19%; height: 6%;"></div>
+      <div class="callout-label" style="top: 76%; left: 31%;">② 確認已勾選</div>
+    </div>
+
+    <p class="screenshot-caption">步驟③④⑤:喜好設定 → 進階 → 資料庫,選好 XML 檔案再按瀏覽</p>
+    <div class="screenshot">
+      <img src="images/rekordbox-preferences.png" alt="Rekordbox 喜好設定畫面" />
+      <div class="callout" style="top: 1%; left: 62%; width: 12%; height: 18%;"></div>
+      <div class="callout-label" style="top: 0.5%; left: 58%;">③ 進階</div>
+      <div class="callout" style="top: 19%; left: 0.5%; width: 24%; height: 12%;"></div>
+      <div class="callout-label" style="top: 15%; left: 0.5%;">④ 資料庫</div>
+      <div class="callout" style="top: 86%; left: 18%; width: 80%; height: 10%;"></div>
+      <div class="callout-label" style="top: 82%; left: 18%;">⑤ 選 XML,按瀏覽</div>
+    </div>
+
+    <p class="screenshot-caption">步驟⑥⑦:左側會出現「rekordbox xml」,在播放列表上按右鍵選「匯入播放清單」</p>
+    <div class="screenshot">
+      <img src="images/rekordbox-playlist-import.png" alt="Rekordbox 右鍵選單匯入播放清單" />
+      <div class="callout" style="top: 52%; left: 1%; width: 38%; height: 31%;"></div>
+      <div class="callout-label" style="top: 47%; left: 1%;">⑥ 你的播放列表</div>
+      <div class="callout" style="top: 51%; left: 47%; width: 53%; height: 34%;"></div>
+      <div class="callout-label" style="top: 46%; left: 47%;">⑦ 按右鍵→匯入播放清單</div>
+    </div>
+  </div>
+
+  <div class="site-footer">
+    <a href="privacy.html">隱私權政策</a> &middot; <a href="disclaimer.html">免責聲明</a>
+  </div>
+</div>
+
+<script src="js/utils.js"></script>
+<script src="js/id3.js"></script>
+<script src="js/riff_aiff.js"></script>
+<script src="js/flac.js"></script>
+<script src="js/mp4.js"></script>
+<script src="js/serato_markers.js"></script>
+<script src="js/serato_crate.js"></script>
+<script src="js/rekordbox_xml.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>
