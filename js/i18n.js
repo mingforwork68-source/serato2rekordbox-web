@@ -78,6 +78,7 @@ window.S2R_DICT = {
 
     "footer.privacy": "隱私權政策",
     "footer.disclaimer": "免責聲明",
+    "footer.reportIssue": "回報問題",
 
     "status.serato.loaded": "已讀取 {count} 個 .crate 播放列表:{shown}{suffix}",
     "status.serato.loadedSuffix": " 等,共 {n} 個",
@@ -208,6 +209,7 @@ window.S2R_DICT = {
 
     "footer.privacy": "隐私权政策",
     "footer.disclaimer": "免责声明",
+    "footer.reportIssue": "反馈问题",
 
     "status.serato.loaded": "已读取 {count} 个 .crate 播放列表:{shown}{suffix}",
     "status.serato.loadedSuffix": " 等,共 {n} 个",
@@ -338,6 +340,7 @@ window.S2R_DICT = {
 
     "footer.privacy": "Privacy Policy",
     "footer.disclaimer": "Disclaimer",
+    "footer.reportIssue": "Report an Issue",
 
     "status.serato.loaded": "Loaded {count} .crate playlist(s): {shown}{suffix}",
     "status.serato.loadedSuffix": ", and more ({n} total)",
