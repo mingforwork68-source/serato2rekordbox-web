@@ -58,6 +58,7 @@
   }
   .site-footer a { color: var(--muted); text-decoration: underline; }
   .site-footer a:hover { color: var(--accent); }
+  .footer-icon { font-size: 1em; }
   .lang-switcher-row { display: flex; justify-content: flex-end; margin-bottom: 4px; }
   .lang-switcher {
     background: var(--panel);
@@ -304,6 +305,7 @@
     <div id="rootRow" class="root-row hidden">
       <label id="rootLabel"></label>
       <input type="text" id="rootInput" class="root-input" data-i18n-placeholder="step2.rootPlaceholderDefault" placeholder="例如 /Users/yourname/Music/IMDJ" />
+      <p class="option-desc" style="margin-left:0;" data-i18n="step2.rootWhyHint">為什麼還要另外輸入路徑?基於瀏覽器安全限制,網頁沒辦法自動偵測資料夾在你電腦上的實際位置,需要手動貼上才能產生正確的檔案位置。</p>
     </div>
     <div id="pathWarning" class="status warn"></div>
 
@@ -426,7 +428,7 @@
   </div>
 
   <div class="site-footer">
-    <a href="privacy.html" data-i18n="footer.privacy">隱私權政策</a> &middot; <a href="disclaimer.html" data-i18n="footer.disclaimer">免責聲明</a>
+    <a href="privacy.html" data-i18n="footer.privacy">隱私權政策</a> &middot; <a href="disclaimer.html" data-i18n="footer.disclaimer">免責聲明</a> <span class="footer-icon">🎣</span>
   </div>
 </div>
 

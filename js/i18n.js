@@ -85,6 +85,7 @@ window.S2R_DICT = {
 
     "step2.rootLabel": "「{folder}」資料夾在你電腦上的完整路徑:",
     "step2.rootPlaceholder": "例如 /Users/yourname/Music/{folder}",
+    "step2.rootWhyHint": "為什麼還要另外輸入路徑?基於瀏覽器安全限制,網頁沒辦法自動偵測資料夾在你電腦上的實際位置,需要手動貼上才能產生正確的檔案位置。",
     "status.music.selectedIgnored": "已選擇「{folder}」,共 {count} 個音樂檔案(這裡只支援單一資料夾,已忽略:{ignored})",
     "status.music.selected": "已選擇 {count} 個音樂檔案",
 
@@ -214,6 +215,7 @@ window.S2R_DICT = {
 
     "step2.rootLabel": "「{folder}」文件夹在你电脑上的完整路径:",
     "step2.rootPlaceholder": "例如 /Users/yourname/Music/{folder}",
+    "step2.rootWhyHint": "为什么还要另外输入路径?基于浏览器安全限制,网页没办法自动侦测文件夹在你电脑上的实际位置,需要手动贴上才能生成正确的文件位置。",
     "status.music.selectedIgnored": "已选择「{folder}」,共 {count} 个音乐文件(这里只支持单一文件夹,已忽略:{ignored})",
     "status.music.selected": "已选择 {count} 个音乐文件",
 
@@ -343,6 +345,7 @@ window.S2R_DICT = {
 
     "step2.rootLabel": "Full path of the \"{folder}\" folder on your computer:",
     "step2.rootPlaceholder": "e.g. /Users/yourname/Music/{folder}",
+    "step2.rootWhyHint": "Why do I need to type the path too? Due to browser security restrictions, the page can't automatically detect a folder's real location on your computer, so it needs to be pasted in manually to generate the correct file paths.",
     "status.music.selectedIgnored": "Selected \"{folder}\" — {count} music file(s) (only a single folder is supported here; ignored: {ignored})",
     "status.music.selected": "Selected {count} music file(s)",
 
