@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title data-i18n="faq.title">常見問題 — Serato → Rekordbox 轉換工具</title>
+<style>
+  :root {
+    color-scheme: light dark;
+    --bg: #f5f5f7;
+    --panel: #ffffff;
+    --text: #1c1c1e;
+    --muted: #6b7280;
+    --accent: #2563eb;
+    --border: #d1d5db;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #111114;
+      --panel: #1c1c22;
+      --text: #f3f4f6;
+      --muted: #9ca3af;
+      --accent: #60a5fa;
+      --border: #33333a;
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    padding: 24px;
+  }
+  .wrap { max-width: 720px; margin: 0 auto; }
+  h1 { font-size: 1.3rem; margin-bottom: 4px; }
+  h2 { font-size: 1.02rem; margin: 28px 0 8px; }
+  .subtitle { color: var(--muted); margin-bottom: 24px; font-size: 0.88rem; }
+  p, li { line-height: 1.7; font-size: 0.92rem; }
+  ul { padding-left: 20px; }
+  a { color: var(--accent); }
+  .panel {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 16px 20px;
+    margin-bottom: 16px;
+  }
+  .back-link { display: inline-block; margin-top: 24px; font-size: 0.88rem; }
+  .lang-switcher-row { display: flex; justify-content: flex-end; margin-bottom: 12px; }
+  .lang-switcher {
+    background: var(--panel);
+    color: var(--text);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 4px 8px;
+    font-size: 0.8rem;
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="lang-switcher-row">
+    <select class="lang-switcher" id="langSwitcher" data-lang-switcher>
+      <option value="zh-Hant">繁體中文</option>
+      <option value="zh-Hans">简体中文</option>
+      <option value="en">English</option>
+    </select>
+  </div>
+
+  <h1 data-i18n="faq.h1">常見問題</h1>
+  <div class="subtitle" data-i18n="privacy.subtitle">Serato → Rekordbox 轉換工具(離線網頁版)</div>
+
+  <div class="panel">
+    <h2 data-i18n="faq.q1.h2">這個工具跟 Serato、Pioneer DJ(rekordbox)官方有合作或授權關係嗎?</h2>
+    <p data-i18n-html="faq.q1.p1">沒有。這是個人開發、免費提供的非官方工具,與 Serato Inc.、AlphaTheta Corporation(rekordbox / Pioneer DJ)並無任何隸屬、合作或授權關係,詳見<a href="disclaimer.html">免責聲明</a>。</p>
+  </div>
+
+  <div class="panel">
+    <h2 data-i18n="faq.q2.h2">我的音樂檔案會被上傳到伺服器嗎?</h2>
+    <p data-i18n-html="faq.q2.p1">不會。整個轉換過程 100% 在你自己的瀏覽器裡執行,音樂檔案與路徑資訊都不會透過網路傳送到任何伺服器,詳見<a href="privacy.html">隱私權政策</a>。</p>
+  </div>
+
+  <div class="panel">
+    <h2 data-i18n="faq.q3.h2">支援哪些音樂檔案格式?</h2>
+    <p data-i18n="faq.q3.p1">MP3、FLAC、WAV、AIFF、M4A/ALAC。</p>
+  </div>
+
+  <div class="panel">
+    <h2 data-i18n="faq.q4.h2">Hot Cue、Loop 資訊轉換的準確度如何?</h2>
+    <p data-i18n="faq.q4.p1">工具會直接讀取 Serato 原始的 Cue 資料並對應到 Rekordbox 的格式,絕大多數情況能正確轉換。不過兩邊軟體的 Cue 系統設計不完全相同(例如顏色顯示、數量上限等細節),建議匯入 Rekordbox 後實際比對一次,確認結果符合預期。</p>
+  </div>
+
+  <div class="panel">
+    <h2 data-i18n="faq.q5.h2">為什麼還要手動輸入音樂資料夾路徑,不能自動偵測嗎?</h2>
+    <p data-i18n="faq.q5.p1">基於瀏覽器安全限制,網頁沒辦法自動讀取資料夾在你電腦上的實際絕對路徑,只能取得檔案本身的內容與檔名。所以需要手動貼上路徑文字,產生的 XML 才能讓 Rekordbox 正確找到音樂檔案的位置。</p>
+  </div>
+
+  <div class="panel">
+    <h2 data-i18n="faq.q6.h2">轉換完成後,要怎麼把 XML 匯入 Rekordbox?</h2>
+    <p data-i18n-html="faq.q6.p1">回到<a href="index.html">轉換工具首頁</a>,下方步驟⑤有完整的圖文教學(含截圖),照著操作即可。</p>
+  </div>
+
+  <div class="panel">
+    <h2 data-i18n="faq.q7.h2">下載的報告裡,ERROR 或 NOCUE 是什麼意思?</h2>
+    <p data-i18n="faq.q7.p1">ERROR 代表這首歌在轉換時發生錯誤(例如檔案格式不支援或已損毀);NOCUE 代表沒有讀取到這首歌的 Serato Cue 資訊(可能是這首歌原本在 Serato 裡就沒有設定過 Hot Cue/Loop)。可以下載 report.txt 查看詳細清單。</p>
+  </div>
+
+  <div class="panel">
+    <h2 data-i18n="faq.q8.h2">使用前為什麼建議先備份?</h2>
+    <p data-i18n="faq.q8.p1">本工具設計上只會「讀取」你的檔案,不會覆寫或修改任何原始檔案。但任何操作前先備份都是好習慣,可以避免與本工具無關的意外(例如硬碟或作業系統問題)造成資料遺失。</p>
+  </div>
+
+  <div class="panel">
+    <h2 data-i18n="faq.q9.h2">這個工具需要付費嗎?</h2>
+    <p data-i18n="faq.q9.p1">完全免費。原始碼採用 MIT 授權,公開在 GitHub 上。</p>
+  </div>
+
+  <div class="panel">
+    <h2 data-i18n="faq.q10.h2">支援手機或平板使用嗎?</h2>
+    <p data-i18n="faq.q10.p1">建議使用桌面版瀏覽器(如 Chrome、Edge、Firefox)。因為需要選取整個音樂資料夾,手機瀏覽器普遍不支援這項功能。</p>
+  </div>
+
+  <div class="panel">
+    <h2 data-i18n="faq.q11.h2">Windows 和 Mac 都能用嗎?</h2>
+    <p data-i18n="faq.q11.p1">都可以。這是純網頁工具,只要瀏覽器支援即可,不需要另外安裝任何軟體。</p>
+  </div>
+
+  <div class="panel">
+    <h2 data-i18n="faq.q12.h2">使用時遇到問題,或有功能建議,要怎麼回報?</h2>
+    <p data-i18n-html="faq.q12.p1">歡迎到 <a href="https://github.com/mingforwork68-source/serato2rekordbox-web/issues" target="_blank" rel="noopener">GitHub Issues</a> 頁面回報,連結也在每個頁面的頁尾。</p>
+  </div>
+
+  <a class="back-link" href="index.html" data-i18n="common.backToTool">← 回到轉換工具</a>
+  <div class="back-link">
+    <a href="privacy.html" data-i18n="footer.privacy">隱私權政策</a> &middot; <a href="disclaimer.html" data-i18n="footer.disclaimer">免責聲明</a>
+  </div>
+</div>
+
+<script src="js/i18n.js"></script>
+<script>
+  document.getElementById("langSwitcher").addEventListener("change", function (e) {
+    window.S2R_I18N.setLang(e.target.value);
+  });
+</script>
+</body>
+</html>
