@@ -80,6 +80,7 @@ window.S2R_DICT = {
     "footer.privacy": "隱私權政策",
     "footer.disclaimer": "免責聲明",
     "footer.reportIssue": "回報問題",
+    "footer.contactEmail": "或寄信給我們",
     "footer.faq": "常見問題",
 
     "status.serato.loaded": "已讀取 {count} 個 .crate 播放列表:{shown}{suffix}",
@@ -240,6 +241,7 @@ window.S2R_DICT = {
     "footer.privacy": "隐私权政策",
     "footer.disclaimer": "免责声明",
     "footer.reportIssue": "反馈问题",
+    "footer.contactEmail": "或给我们发邮件",
     "footer.faq": "常见问题",
 
     "status.serato.loaded": "已读取 {count} 个 .crate 播放列表:{shown}{suffix}",
@@ -400,6 +402,7 @@ window.S2R_DICT = {
     "footer.privacy": "Privacy Policy",
     "footer.disclaimer": "Disclaimer",
     "footer.reportIssue": "Report an Issue",
+    "footer.contactEmail": "or email us",
     "footer.faq": "FAQ",
 
     "status.serato.loaded": "Loaded {count} .crate playlist(s): {shown}{suffix}",
