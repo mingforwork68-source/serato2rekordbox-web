@@ -2,7 +2,7 @@
 
 ## 如何開始
 
-https://shangshungold.com/
+https://mingforwork68-source.github.io/serato2rekordbox-web/
 
 ## 繁體中文
 
