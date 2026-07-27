@@ -487,6 +487,13 @@ window.S2R_I18N = (function () {
 
   function detectDefault() {
     try {
+      var fromUrl = new URLSearchParams(location.search).get("lang");
+      if (fromUrl && SUPPORTED.indexOf(fromUrl) !== -1) {
+        try { localStorage.setItem(STORAGE_KEY, fromUrl); } catch (e) {}
+        return fromUrl;
+      }
+    } catch (e) {}
+    try {
       var stored = localStorage.getItem(STORAGE_KEY);
       if (stored && SUPPORTED.indexOf(stored) !== -1) return stored;
     } catch (e) {}
