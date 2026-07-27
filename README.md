@@ -1,9 +1,5 @@
 # Serato → Rekordbox 轉換工具
 
-## 如何開始
-
-https://mingforwork68-source.github.io/serato2rekordbox-web/
-
 ## 繁體中文
 
 **如何開始:** https://mingforwork68-source.github.io/serato2rekordbox-web/
