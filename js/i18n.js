@@ -17,6 +17,7 @@ window.S2R_DICT = {
     "common.winHeading": "🪟 Windows",
     "common.pathUsuallyIs": "路徑通常是:",
 
+    "video.heading": "📺 教學影片",
     "step1.heading": "① Serato 播放列表(選填,用來還原歌曲順序)",
     "step1.dropzoneText": `把 <code>_Serato_</code> 資料夾或單一 <code>.crate</code> 檔案拖到這裡,或`,
     "step1.btnSelectFile": "選擇 .crate 檔案",
@@ -178,6 +179,7 @@ window.S2R_DICT = {
     "common.winHeading": "🪟 Windows",
     "common.pathUsuallyIs": "路径通常是:",
 
+    "video.heading": "📺 教学影片",
     "step1.heading": "① Serato 播放列表(选填,用来还原歌曲顺序)",
     "step1.dropzoneText": `把 <code>_Serato_</code> 文件夹或单一 <code>.crate</code> 文件拖到这里,或`,
     "step1.btnSelectFile": "选择 .crate 文件",
@@ -339,6 +341,7 @@ window.S2R_DICT = {
     "common.winHeading": "🪟 Windows",
     "common.pathUsuallyIs": "The path is usually:",
 
+    "video.heading": "📺 Tutorial Video",
     "step1.heading": "① Serato Playlists (optional — used to restore track order)",
     "step1.dropzoneText": `Drag your <code>_Serato_</code> folder or a single <code>.crate</code> file here, or`,
     "step1.btnSelectFile": "Choose .crate File",
